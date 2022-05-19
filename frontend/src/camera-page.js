@@ -7,7 +7,7 @@ customElements.define("camera-page", class extends YoffeeElement {
         super({});
     }
 
-    startCamera() {
+    async startCamera() {
         const constraints = {
             video: {
                 width: {
@@ -32,19 +32,16 @@ customElements.define("camera-page", class extends YoffeeElement {
         this.video.play();
         //video.pause();
 
-        async function initializeCamera() {
-            // stopVideoStream();
-            // constraints.video.facingMode = useFrontCamera ? "user" : "environment";
 
-            try {
-                videoStream = await navigator.mediaDevices.getUserMedia(constraints);
-                this.video.srcObject = videoStream;
-            } catch (err) {
-                alert("Could not access the camera");
-            }
+        // stopVideoStream();
+        // constraints.video.facingMode = useFrontCamera ? "user" : "environment";
+
+        try {
+            videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+            this.video.srcObject = videoStream;
+        } catch (err) {
+            alert("Could not access the camera");
         }
-
-        initializeCamera();
     }
 
     render() {
@@ -110,6 +107,21 @@ customElements.define("camera-page", class extends YoffeeElement {
                 position: fixed;
             }
             
+            #finish-buttons-container {
+                display: flex;
+                position: fixed;
+                z-index: 1;
+                top: 77%;
+                font-size: 30px;
+            }
+            
+            #finish-buttons-container > x-button {
+                background-color: #ffffff10;
+            }
+            
+            #continue-button {
+                margin-left: 20px;
+            }
         </style>
         <style>
             #canvas {
@@ -120,14 +132,31 @@ customElements.define("camera-page", class extends YoffeeElement {
         <canvas id="canvas"></canvas>
         <video autoplay id="video"></video>
         
-        <x-button id="camera-button" onclick=${() => this.takePhoto()}></x-button>
+        ${() => this.state.approvePhotoStage ? 
+        html()`
+        <div id="finish-buttons-container">
+            <x-button id="retake-button" onclick=${() => this.backToPhotoTakingBitch()}>
+                Retake
+            </x-button>
+            <x-button id="continue-button" onclick=${() => this.props.onfinish()}>
+                Continue
+            </x-button>            
+        </div>
+        `
+            :
+        html()`<x-button id="camera-button" onclick=${() => this.takePhoto()}></x-button>`
+        }
         <div id="instructions">Make sure your waist and shoulders are seen</div>
         `
     }
 
-    takePhoto() {
-        this.video.stop();
+    backToPhotoTakingBitch() {
+        this.video.play();
+    }
 
+    takePhoto() {
+        this.video.pause();
+        this.state.approvePhotoStage = true
         // const img = document.createElement("img");
         // canvas.width = video.videoWidth;
         // canvas.height = video.videoHeight;

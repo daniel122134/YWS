@@ -138,6 +138,15 @@ ${() => this.state.displayContent && html()`
 </style>
 `}
 
+${() => this.state.displayContent && this.state.finishedCameraStage && html()`
+<style>
+    #container {
+        opacity: 1;
+        transition: 1000ms;
+    }
+</style>
+`}
+
 <style>
     @media (max-width: 800px) {
         #logo {
@@ -159,7 +168,15 @@ ${() => this.state.inSplashPage && html()`
              onstartcamera=${() => this.shadowRoot.querySelector("camera-page").startCamera()}></splash-page>
 `}
 
-<camera-page></camera-page>
+${() => !this.state.finishedCameraStage && html()`
+<camera-page onfinish=${() => {
+    console.log("Finished")
+    this.state.finishedCameraStage = true
+    // this.state.displayContent = true
+    this.state.inSplashPage = false
+}}></camera-page>
+`}
+
 
 <div id="container">
     <div id="header">
