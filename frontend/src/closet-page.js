@@ -1,7 +1,9 @@
 import {YoffeeElement, createYoffeeElement, html} from "../libs/yoffee/yoffee.min.js";
 import state, {PAGES} from "./state.js"
 import "./mark-down.js"
+import {openModal} from "./components/x-modal.js";
 
+let modal = null
 createYoffeeElement("closet-page", class extends YoffeeElement {
     constructor() {
         super({})
@@ -24,7 +26,75 @@ createYoffeeElement("closet-page", class extends YoffeeElement {
             }
         }
     }
+    open_modal(){
 
+        let modal = openModal(
+            html()`
+                <style>
+                    #container {
+                        padding: 20px 20px;
+                    }
+    
+                    text-input {
+                        margin-left: auto;
+                        background-color: #d0d0d0;
+                        color:black;
+                    }
+                    
+                    .input-with-name {
+                        display: flex;
+                        margin: 5px 10px;
+                        align-items: center;
+                    }
+                    
+                    .input-with-name > x-button {
+                        margin-right: 5px;
+                        margin-left: 5px;
+                    }
+                    
+                    #finish-button {
+                        margin-top: 20px;
+                    }
+                    
+                    .title {
+                        font-size: 18px;
+                        margin: 30px 0 12px 0;
+                    }
+                </style>
+                <div id="container">
+                    <div style="font-size: 24px">Add New Item to Your Wardrobe</div>
+                    
+                    
+                    
+                    
+                    <div class="desc">Item Name:</div>
+                    <text-input id="item-name"></text-input>
+                    <div class="margin"></div>
+                    
+                    <div class="desc">Size:</div>
+                    <text-input id="size"></text-input>
+                    <div class="margin"></div>
+
+                    <div class="desc">Color:</div>
+                    <text-input id="color"></text-input>
+                    <div class="margin"></div>
+
+                    <div class="desc">Is dark:</div>
+                    <text-input id="is-dark"></text-input>
+                    <div class="margin"></div>
+                    
+                    <x-button id="finish-button"
+                              onclick=${() => modal.close()}>
+                        Cancel
+                    </x-button>
+                    <x-button id="finish-button"
+                              onclick=${() => () => this.validateAndSend()}>
+                        Save
+                    </x-button>
+                </div>`
+        )
+        return modal;
+    }
     render() {
         return html(this.state, state)`
 <style>
@@ -49,7 +119,15 @@ createYoffeeElement("closet-page", class extends YoffeeElement {
         align-items: baseline;
         font-size: 14px;
     }
-    
+    .add{
+        flex:1;
+        border: solid;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .margin{
+        flex:2
+    }
     #side-menu {
         transition: 400ms;
         margin-left: -240px;
@@ -67,6 +145,7 @@ createYoffeeElement("closet-page", class extends YoffeeElement {
         opacity: 1;
         padding: 3% 7% 7% 7%;
         overflow-y: auto;
+        display: flex;
     }
     
     #doc-content[overlayed] {
@@ -107,23 +186,16 @@ createYoffeeElement("closet-page", class extends YoffeeElement {
     `)}
 </div>
 
+<div class="margin"></div>
 
 <div id="doc-content" overlayed=${() => state.sideMenuOpen && window.innerWidth < 800}>
-    <mark-down markdown=${() => state.selectedNode.doc}></mark-down>
-    <div id="next-previous-buttons">
-        ${() => state.selectedNode.previous != null &&
-            html()`<x-button id="previous" 
-                             onclick=${() => this.flipPage(state.selectedNode.previous)}>
-                         < ${() => state.selectedNode.previous.name}
-                   </x-button>`}        
-        ${() => state.selectedNode.next != null && 
-            html()`<x-button id="next" 
-                             onclick=${() => this.flipPage(state.selectedNode.next)}>
-                         ${() => state.selectedNode.next.name} >
-                   </x-button>`}
-        
+    <div class="margin"></div>
+    <div>
+    
+    <img id="barbot" class="add" src="res/add_cloth.png" onclick=${() => modal=this.open_modal() } />
+    
     </div>
-    <img id="barbot" src="res/add_cloth.png" onclick=${() => console.log() } />
+    <div class="margin"></div>
 </div>
         `
     }
@@ -140,4 +212,23 @@ createYoffeeElement("closet-page", class extends YoffeeElement {
         page.isSelected = true;
         state.selectedNode = page;
     }
+
+    validateAndSend() {
+     
+        let item = modal.querySelector("#item-name").getValue()
+        let color = modal.querySelector("#color").getValue()
+        let size = modal.querySelector("#size").getValue()
+        let is_dark = modal.querySelector("#is-dark").getValue()
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({_id:"123", name:item, color:color,size:size, isDark:is_dark, brand:"", picture:"", body_area:"", weather:"", is_sport:"", is_business:"", category:""})    
+    } ;
+        fetch('/addItem', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                alert(data)
+                console.log(data)});
+    }
+    
 });
