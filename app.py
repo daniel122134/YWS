@@ -1,4 +1,5 @@
 import asyncio
+import base64
 import json
 import os
 import socket
@@ -9,6 +10,7 @@ from flask import Flask, send_from_directory, request
 
 from backend.dal.wardrobe import add_item, remove_item, get_all_items
 from backend.entities.Item import Item
+from backend.shirtSize import get_line_data
 
 ROOT_FOLDER = "frontend"
 app = Flask(__name__, static_folder=os.path.join(ROOT_FOLDER, 'static'))
@@ -69,10 +71,13 @@ def _make_http_response(content=None, status_code=200, extra_headers=None, mimet
 is_task_currently_running = False
 
 
-@app.route('/getTestIp', methods=["POST"])
+@app.route('/getLineForImage', methods=["POST"])
 @response_wrapper
-def get_test_ip():
-    return request.json["name"]
+def get_line():
+    image_data_b64 = request.json["data"]
+    image_data = base64.b64decode(image_data_b64)
+    get_line_data_for_image(image_data)
+    return get_line_data("backend/shirtSize/front.jpeg")
 
 
 
