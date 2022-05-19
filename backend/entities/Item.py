@@ -1,5 +1,5 @@
 class Item:
-    def __init__(self, id, size, brand, picture, body_area, weather, is_sport, is_business, category):
+    def __init__(self, id, size, brand, picture, body_area, weather, is_sport, is_business, category,color):
         self.id = id
         self.size = size
         self.brand = brand
@@ -9,6 +9,7 @@ class Item:
         self.is_sport = is_sport
         self.is_business = is_business
         self.category = category
+        self.color = color
 
     def to_dict(self):
         data = {}
@@ -21,6 +22,7 @@ class Item:
         data["is_sport"] = self.is_sport
         data["is_business"] = self.is_business
         data["category"] = self.category
+        data["color"] = self.color
 
         return data
 
@@ -33,5 +35,8 @@ class Item:
                     , data["body_area"]
                     , data["weather"]
                     , data["is_sport"]
-                    , data["is_business"],
-                    data["category"])
+                    , data["is_business"]
+                    , data["category"]
+                    , data["color"])
+
+
