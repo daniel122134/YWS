@@ -33,7 +33,7 @@ import matplotlib.pyplot as plt
 
 image = cv.imread("shirtSize/roei3.jpeg")
 plt.imshow(image)
-plt.show()
+
 
 
 # In[3]:
@@ -157,6 +157,7 @@ cv.putText(image, "{:.1f}in".format(dB),
 # draw the outline of the object, then draw each of the
 # extreme points, where the left-most is red, right-most
 # is green, top-most is blue, and bottom-most is teal
+print("hi", cv.drawContours(image, [c], -1, (0, 255, 255), 2))
 cv.drawContours(image, [c], -1, (0, 255, 255), 2)
 cv.circle(image, extLeft, 8, (0, 0, 255), -1)
 cv.circle(image, extRight, 8, (0, 255, 0), -1)

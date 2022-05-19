@@ -1,13 +1,13 @@
 from backend.dal import client
 
 
-def get_known_drinks():
+def get_all_items():
     result = client.find("wardrobe", {})
     return result
 
 
-def add_item(item_date):
-    return client.insert("wardrobe", item_date)
+def add_item(item):
+    return client.insert("wardrobe", item.to_dict())
 
 
 def remove_item(id):
