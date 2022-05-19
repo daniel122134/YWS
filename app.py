@@ -3,10 +3,12 @@ import json
 import os
 import socket
 
+import this
+
 from flask import Flask, send_from_directory, request
 
-from backend.dal import installation, drinks, recipes
-from backend.logic import cocktails, cleaning
+from backend.dal.wardrobe import add_item, remove_item, get_all_items
+from backend.entities.Item import Item
 
 ROOT_FOLDER = "my-app/build"
 app = Flask(__name__, static_folder=os.path.join(ROOT_FOLDER, 'static'))
@@ -14,6 +16,8 @@ app = Flask(__name__, static_folder=os.path.join(ROOT_FOLDER, 'static'))
 from functools import wraps
 
 from flask import Response
+
+wardrobe = {}
 
 
 class BarbotResponse(object):
@@ -61,68 +65,34 @@ def _make_http_response(content=None, status_code=200, extra_headers=None, mimet
 
     return Response(content_string, status_code, extra_headers, mimetype)
 
+
 is_task_currently_running = False
 
-@app.route('/clean', methods=["POST"])
-@response_wrapper
-def clean():
-    global is_task_currently_running
-    if is_task_currently_running:
-        return
-    is_task_currently_running = True
-    result = asyncio.run(cleaning.clean_all())
-    is_task_currently_running = False
-    return result
 
-@app.route('/makeDrink', methods=["POST"])
+@app.route('/getTestIp', methods=["POST"])
 @response_wrapper
-def make_drink():
+def get_test_ip():
+    return request.json["name"]
+
+
+
+
+
+@app.route('/removeItem', methods=["POST"])
+@response_wrapper
+def remove_item_req():
     data = request.json
-    name = data["name"]
+    remove_item(data["_id"])
+    return wardrobe
 
-    global is_task_currently_running
-    if is_task_currently_running:
-        return "task_already_running"
 
-    is_task_currently_running = True
-    asyncio.run(cocktails.make_cocktail(name))
-    is_task_currently_running = False
-    return "done"
-
-@app.route('/getKnownDrinks', methods=["POST"])
+@app.route('/addItem', methods=["POST"])
 @response_wrapper
-def get_known_drinks():
-    known_drinks = drinks.get_known_drinks()
-    result = [{"name": drink["name"], "pic": drink["picture"]} for drink in known_drinks]
-    return result
-
-
-@app.route('/getAllAvailableRecipes', methods=["POST"])
-@response_wrapper
-def get_all_available_recipes():
-    available_recipes = recipes.get_all_available_recipes()
-    result = [{"name": recipe["name"], "ingredients": recipe["ingredients"], "pic": recipe["picture"]} for
-              recipe in available_recipes]
-    return result
-
-
-@app.route('/getInstallations', methods=["POST"])
-@response_wrapper
-def get_installations():
-    installations = installation.get_pumps_configuration()
-    result = [{"pin": installation["pin"], "location": installation["location"], "drink": installation["drink"]} for
-              installation in installations]
-    return result
-
-
-@app.route('/setDrinkToPump', methods=["POST"])
-@response_wrapper
-def set_drink_to_pump():
+def add_item_req():
     data = request.json
-    name = data["drink"]
-    pin = data["pin"]
-    location = data["location"]
-    return installation.set_drink_to_pump(name, pin, location)
+    add_item(Item.from_dict(data))
+    x= get_all_items()
+    return x
 
 
 @app.route('/getServerIp', methods=["POST"])
