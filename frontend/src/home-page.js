@@ -3,7 +3,7 @@ import "./mark-down.js"
 
 
 const description = `
-<b>Daniel Haddad</b> is a young computer engineer and a student.
+<b>Y-W-S</b> Your clothes assistant.
 
 * Total of 6 years of programing experience in Full Stack software development and data piping system architecture.
 * Extensive experience with framework development and distributed systems design.
@@ -123,16 +123,13 @@ createYoffeeElement("home-page", class extends YoffeeElement {
     
 </style>
 <div id="title-block-container">
-    <img id="logo" src="res/profile.png"/>
+    <img id="logo" src="res/hackru.jpg"/>
     <div id="title-text-container">
-        <div id="title-text">Daniel.H</div>
-        <div id="title-description">Software Engeneer at Yahoo, Student at Reichman University</div>
+        <div id="title-text">YWS</div>
+        <div id="title-description">Your clothes assistant.</div>
         <div id="buttons-container">
-            <x-button id="get-started-button" onclick=${() => () => this.props.getstarted()}>About Daniel</x-button>
-            <x-button id="linkedin-button" onclick=${() => () => this.props.linkedin()}>
-                LinkedIn
-                <x-icon id="linkedin-icon" icon="fab fa-linkedin"></x-icon>
-            </x-button>
+            <x-button id="get-started-button" onclick=${() => () => this.props.getstarted()}>My clothes</x-button>
+            <x-button id="linkedin-button" onclick=${() => () => this.props.getstarted()}>Scan me</x-button>
         </div>
     </div>
 </div>
