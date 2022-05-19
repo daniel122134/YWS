@@ -190,8 +190,8 @@ customElements.define("camera-page", class extends YoffeeElement {
         <div id="lines">
             <div id="shoulders" class="line"></div>
             <div id="shoulders-text">shoulders: ${() => this.state.lines.shoulders.text}</div>
-            <div id="waist" class="line"></div>
-            <div id="waist-text">waist: ${() => this.state.lines.waist.text}</div>
+<!--            <div id="waist" class="line"></div>-->
+<!--            <div id="waist-text">waist: {() => this.state.lines.waist.text}</div>-->
         </div>
         `}
         `
@@ -225,9 +225,9 @@ customElements.define("camera-page", class extends YoffeeElement {
 
         this.state.lines = {
             shoulders: {
-                x: 100,
-                width: 200,
-                y: 200,
+                x: lines[0],
+                width: lines[2] - lines[0],
+                y: (lines[1] + lines[3]) / 2,
                 text: "47cm"
             },
             waist: {
