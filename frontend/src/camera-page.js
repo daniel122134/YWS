@@ -154,14 +154,27 @@ customElements.define("camera-page", class extends YoffeeElement {
         this.video.play();
     }
 
-    takePhoto() {
+    async takePhoto() {
         this.video.pause();
         this.state.approvePhotoStage = true
+        
         // const img = document.createElement("img");
-        // canvas.width = video.videoWidth;
-        // canvas.height = video.videoHeight;
-        // canvas.getContext("2d").drawImage(video, 0, 0);
+        const canvas = document.createElement("canvas");
+        canvas.width = this.video.videoWidth;
+        canvas.height = this.video.videoHeight;
+        canvas.getContext("2d").drawImage(this.video, 0, 0);
         // img.src = canvas.toDataURL("image/png");
-        // screenshotsContainer.prepend(img);
+        let base64 = canvas.toDataURL("image/jpg");
+        const response = await fetch("getLineForImage", {
+            method: "POST",
+            headers: Object.assign({
+                "Content-Type": "application/json; charset=utf-8",
+            }),
+            body: JSON.stringify({
+                data: base64
+            })
+        });
+        let lines = await response.json()
+        debugger
     }
 })
