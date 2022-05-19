@@ -225,9 +225,9 @@ customElements.define("camera-page", class extends YoffeeElement {
 
         this.state.lines = {
             shoulders: {
-                x: lines[0],
-                width: lines[2] - lines[0],
-                y: (lines[1] + lines[3]) / 2,
+                x: lines.data[0],
+                width: lines.data[2] - lines.data[0],
+                y: (lines.data[1] + lines.data[3]) / 2,
                 text: "47cm"
             },
             waist: {
