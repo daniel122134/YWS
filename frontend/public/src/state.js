@@ -15,7 +15,7 @@ const PAGES = {
 }
 
 let state = {
-    darkTheme: true,
+    darkTheme: false,
     sideMenuOpen: window.innerWidth > 800,
     selectedNode: null,
     tree: {

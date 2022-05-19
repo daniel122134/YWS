@@ -10,7 +10,7 @@ from flask import Flask, send_from_directory, request
 from backend.dal.wardrobe import add_item, remove_item, get_all_items
 from backend.entities.Item import Item
 
-ROOT_FOLDER = "my-app/build"
+ROOT_FOLDER = "frontend"
 app = Flask(__name__, static_folder=os.path.join(ROOT_FOLDER, 'static'))
 
 from functools import wraps
