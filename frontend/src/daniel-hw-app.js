@@ -7,7 +7,8 @@ import "./components/x-switch.js"
 import "./components/x-icon.js"
 import "./home-page.js"
 import "./closet-page.js"
-import "./vote-page.js"
+import "./item-canva.js"
+import "./item.js"
 import "./contact-page.js"
 
 
@@ -161,7 +162,7 @@ ${() => {
             } else if (this.state.currentPage === PAGES.closet) {
                 return html()`<closet-page></closet-page>`
             } else if (this.state.currentPage === PAGES.explore) {
-                return html()`<explore-page></explore-page>`
+                return html()`<item-canva-page></item-canva-page>`
             }
         }}
 `
