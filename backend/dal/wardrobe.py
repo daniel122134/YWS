@@ -3,6 +3,7 @@ from backend.dal import client
 
 def get_all_items():
     result = client.find("wardrobe", {})
+    return []
     return result
 
 

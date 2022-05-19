@@ -222,7 +222,7 @@ createYoffeeElement("closet-page", class extends YoffeeElement {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({_id:"123", name:item, color:color,size:size, isDark:is_dark, brand:"", picture:"", body_area:"", weather:"", is_sport:"", is_business:"", category:""})    
+            body: JSON.stringify({name:item, color:color,size:size, isDark:is_dark, brand:"", picture:"", bodyArea:"", weather:"", isSport:"", isBusiness:"", category:""})    
     } ;
         fetch('/addItem', requestOptions)
             .then(response => response.json())

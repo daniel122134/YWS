@@ -1,6 +1,5 @@
 class Item:
-    def __init__(self, id, size, brand, picture, body_area, weather, is_sport, is_business, category,color):
-        self.id = id
+    def __init__(self, size, brand, picture, body_area, weather, is_sport, is_business, category,color):
         self.size = size
         self.brand = brand
         self.picture = picture
@@ -12,22 +11,21 @@ class Item:
         self.color = color
 
     def to_dict(self):
-        data = {"_id": self.id, "size": self.size, "brand": self.brand, "picture": self.picture,
-                "body_area": self.body_area, "weather": self.weather, "is_sport": self.is_sport,
-                "is_business": self.is_business, "category": self.category, "color": self.color}
+        data = {"size": self.size, "brand": self.brand, "picture": self.picture,
+                "bodyArea": self.body_area, "weather": self.weather, "isSport": self.is_sport,
+                "isBusiness": self.is_business, "category": self.category, "color": self.color}
 
         return data
 
     @staticmethod
     def from_dict(data):
-        return Item(data["_id"],
-                    data["size"]
+        return Item(data["size"]
                     , data["brand"]
                     , data["picture"]
-                    , data["body_area"]
+                    , data["bodyArea"]
                     , data["weather"]
-                    , data["is_sport"]
-                    , data["is_business"]
+                    , data["isSport"]
+                    , data["isBusiness"]
                     , data["category"]
                     , data["color"])
 
