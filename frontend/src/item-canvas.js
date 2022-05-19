@@ -1,6 +1,6 @@
 import {createYoffeeElement, html, YoffeeElement} from "../libs/yoffee/yoffee.min.js";
 
-createYoffeeElement("item-canva-page", class extends YoffeeElement {
+createYoffeeElement("item-canvas-page", class extends YoffeeElement {
     constructor() {
         super({items:[{src:"res/hackru.jpg"},{src:"res/hackru.jpg"}, {src:"res/hackru.jpg"}]})
         }
@@ -65,7 +65,7 @@ createYoffeeElement("item-canva-page", class extends YoffeeElement {
 
 <div>
     ${() => this.state.items.map(item => html()`
-    <item-page items=${()=> item}
+    <item-page items=${()=> item}>
     </item-page>
     `)}
 </div>

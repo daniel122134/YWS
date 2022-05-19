@@ -36,8 +36,8 @@ createYoffeeElement("item-page", class extends YoffeeElement {
 </style>
  <!-- Image --> 
 <div class="gallery">
-  <a target="_blank" href=${() => "res/hackru.jpg"}>
-    <img src=${() => "res/hackru.jpg"} alt="Cinque Terre" width="600" height="400">
+  <a target="_blank" href=${() => this.props.items.src}>
+    <img src=${() => this.props.items.src} alt="Cinque Terre" width="600" height="400">
   </a>
   <div class="desc">Add a description of the image here</div>
 </div>

@@ -7,9 +7,11 @@ import "./components/x-switch.js"
 import "./components/x-icon.js"
 import "./home-page.js"
 import "./closet-page.js"
-import "./item-canva.js"
+import "./item-canvas.js"
 import "./item.js"
 import "./contact-page.js"
+import "./splash-page.js"
+import "./camera-page.js"
 
 
 customElements.define("daniel-hw-app", class extends YoffeeElement {
@@ -18,7 +20,9 @@ customElements.define("daniel-hw-app", class extends YoffeeElement {
         let page = urlParams.get("page");
 
         super({
-            currentPage: page || PAGES.home
+            currentPage: page || PAGES.home,
+            inSplashPage: true,
+            displayContent: false
         })
     }
 
@@ -29,6 +33,11 @@ customElements.define("daniel-hw-app", class extends YoffeeElement {
         display: flex;
         flex-direction: column;
         height: inherit;
+        overflow-x: hidden;
+    }
+    
+    #container {
+        opacity: 0;
     }
     
     #header {
@@ -114,7 +123,20 @@ customElements.define("daniel-hw-app", class extends YoffeeElement {
             display: none;
         }
     }
+    
+    camera-page {
+        opacity: 0;
+    }
 </style>
+
+${() => this.state.displayContent && html()`
+<style>
+    camera-page {
+        opacity: 1;
+        transition: 1000ms;
+    }
+</style>
+`}
 
 <style>
     @media (max-width: 800px) {
@@ -131,40 +153,51 @@ customElements.define("daniel-hw-app", class extends YoffeeElement {
     }
 </style>
 
-<div id="header">
-    <x-icon id="slide-menu-button" icon="fas fa-bars"
-            onclick=${() => () => state.sideMenuOpen = !state.sideMenuOpen}></x-icon>
-    <img id="logo" src="res/hackru.jpg" onclick=${() => () => this.switchPage(PAGES.home)} />
-    <div id="title" onclick=${() => () => this.switchPage(PAGES.home)}>YWS</div>
-    
-    <div id="about-button" class="header-button" 
-         highlight=${() => this.state.currentPage === PAGES.closet}
-         onclick=${() => () => this.switchPage(PAGES.closet)}>
-        My Clothes
-    </div>
-    <div id="vote-button" class="header-button" 
-         highlight=${() => this.state.currentPage === PAGES.explore}
-         onclick=${() => () => this.switchPage(PAGES.explore)}>
-        Explore ♥
-    </div>
-    
-    <x-switch id="dark-theme-toggle" 
-              value=${() => state.darkTheme}
-              switched=${() => () => {
+${() => this.state.inSplashPage && html()`
+<splash-page onfinish=${() => this.state.inSplashPage = false}
+             onstartfinish=${() => this.state.displayContent = true}
+             onstartcamera=${() => this.shadowRoot.querySelector("camera-page").startCamera()}></splash-page>
+`}
+
+<camera-page></camera-page>
+
+<div id="container">
+    <div id="header">
+        <x-icon id="slide-menu-button" icon="fas fa-bars"
+                onclick=${() => () => state.sideMenuOpen = !state.sideMenuOpen}></x-icon>
+        <img id="logo" src="res/hackru.jpg" onclick=${() => () => this.switchPage(PAGES.home)} />
+        <div id="title" onclick=${() => () => this.switchPage(PAGES.home)}>YWS</div>
+        
+        <div id="about-button" class="header-button" 
+             highlight=${() => this.state.currentPage === PAGES.closet}
+             onclick=${() => () => this.switchPage(PAGES.closet)}>
+            My Clothes
+        </div>
+        <div id="vote-button" class="header-button" 
+             highlight=${() => this.state.currentPage === PAGES.explore}
+             onclick=${() => () => this.switchPage(PAGES.explore)}>
+            Explore ♥
+        </div>
+        
+        <x-switch id="dark-theme-toggle" 
+                  value=${() => state.darkTheme}
+                  switched=${() => () => {
             state.darkTheme = !state.darkTheme;
             document.body.setAttribute("theme", state.darkTheme ? "dark" : "light")
         }}></x-switch>
+    </div>
+
+    ${() => {
+        if (this.state.currentPage === PAGES.home) {
+            return html()`<home-page getstarted=${() => () => this.switchPage(PAGES.closet)} ></home-page>`
+        } else if (this.state.currentPage === PAGES.closet) {
+            return html()`<closet-page></closet-page>`
+        } else if (this.state.currentPage === PAGES.explore) {
+            return html()`<item-canvas-page></item-canvas-page>`
+        }
+    }}
 </div>
 
-${() => {
-            if (this.state.currentPage === PAGES.home) {
-                return html()`<home-page getstarted=${() => () => this.switchPage(PAGES.closet)} ></home-page>`
-            } else if (this.state.currentPage === PAGES.closet) {
-                return html()`<closet-page></closet-page>`
-            } else if (this.state.currentPage === PAGES.explore) {
-                return html()`<item-canva-page></item-canva-page>`
-            }
-        }}
 `
     }
 
@@ -172,5 +205,4 @@ ${() => {
         window.history.replaceState(null, null, `?page=${page}`);
         this.state.currentPage = page;
     }
-
 });
