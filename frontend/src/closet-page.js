@@ -2,7 +2,7 @@ import {YoffeeElement, createYoffeeElement, html} from "../libs/yoffee/yoffee.mi
 import state, {PAGES} from "./state.js"
 import "./mark-down.js"
 
-createYoffeeElement("about-page", class extends YoffeeElement {
+createYoffeeElement("closet-page", class extends YoffeeElement {
     constructor() {
         super({})
 
@@ -122,14 +122,15 @@ createYoffeeElement("about-page", class extends YoffeeElement {
                          ${() => state.selectedNode.next.name} >
                    </x-button>`}
         
-    </div> 
+    </div>
+    <img id="barbot" src="res/add_cloth.png" onclick=${() => console.log() } />
 </div>
         `
     }
 
     flipPage(nextPage) {
         this.setPage(nextPage)
-        window.history.replaceState(null, null, `?page=${PAGES.about}&doc=${state.selectedNode.name}`);
+        window.history.replaceState(null, null, `?page=${PAGES.closet}&doc=${state.selectedNode.name}`);
 
         this.shadowRoot.querySelector("#doc-content").scrollTop = 0;
     }

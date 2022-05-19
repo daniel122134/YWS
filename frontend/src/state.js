@@ -9,9 +9,8 @@ import Acro from "./docs/hobbies/Acro.js";
 
 const PAGES = {
     home: "home",
-    about: "about",
-    vote: "vote",
-    contact: "contact",
+    closet: "closet",
+    explore: "explore",
 }
 
 let state = {
@@ -21,43 +20,42 @@ let state = {
     tree: {
         name: "ROOT",
         children: [{
-            name: "Life",
+            name: "Summer",
             opened: true,
             children: [{
-                name: "about Daniel",
+                name: "Shirts",
                 children: [],
                 isSelected: true,
                 doc: Childhood,
             }, {
-                name: "Education",
+                name: "Pants",
                 children: [],
                 doc: Mechina
             }, {
-                name: "IDF service - 8200",
+                name: "Shoes",
                 children: [],
                 doc: IDF
             },
-            {
-                name: "Employment",
-                children: [],
-                doc: Work
-            },
-
             ]
         },
         {
-            name: "Hobbies",
+            name: "Winter",
             children: [
                 {
-                name: "Acrobatics",
+                name: "Shirts",
                 children: [],
                 doc: Acro
             },
             {
-                name: "Snowboarding",
+                name: "Pants",
                 children: [],
                 doc: Snow
-            }, 
+            },
+            {
+                name: "Pants",
+                children: [],
+                doc: Snow
+            },
             ]
         },
         ]
