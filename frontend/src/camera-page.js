@@ -150,29 +150,46 @@ customElements.define("camera-page", class extends YoffeeElement {
         }
         <div id="instructions">Make sure your waist and shoulders are seen</div>
         
-        
-        ${() => this.state.showLines && html()`
         <style>
             #lines > div {
                 position: fixed;
                 font-size: 18px;
                 color: #ffffffbb;
+                left: -1000px;
             }
-        
             #lines > div.line{
                 height: 2px;
                 background-color: #1f74fd;
             }
-            
+        </style>
+        
+        <div id="lines">
+            <div id="shoulders" class="line"></div>
+            <div id="shoulders-text">shoulders: ${() => this.state.lines ? this.state.lines.shoulders.text : ""}</div>
+<!--            <div id="waist" class="line"></div>-->
+<!--            <div id="waist-text">waist: {() => this.state.lines.waist.text}</div>-->
+        </div>
+        
+        ${() => this.state.showLines && html()`
+        <style>
             #shoulders {
                 top: ${() => this.state.lines.shoulders.y}px;
-                left: ${() => this.state.lines.shoulders.x}px;
                 width: ${() => this.state.lines.shoulders.width}px;
+            }
+            
+            #shoulders {
+                left: ${() => this.state.lines.shoulders.x}px !important;
+                transition: 500ms;
             }
             
             #shoulders-text {
                 top: ${() => this.state.lines.shoulders.y + 10}px;
-                left: ${() => this.state.lines.shoulders.x + 10}px;
+            }
+            
+            #shoulders-text {
+                left: ${() => this.state.lines.shoulders.x + 10}px !important;
+                transition-delay: 300ms;
+                transition-duration: 500ms;
             }
             
             #waist {
@@ -186,13 +203,6 @@ customElements.define("camera-page", class extends YoffeeElement {
                 left: ${() => this.state.lines.waist.x + 10}px;
             }
         </style>
-        
-        <div id="lines">
-            <div id="shoulders" class="line"></div>
-            <div id="shoulders-text">shoulders: ${() => this.state.lines.shoulders.text}</div>
-<!--            <div id="waist" class="line"></div>-->
-<!--            <div id="waist-text">waist: {() => this.state.lines.waist.text}</div>-->
-        </div>
         `}
         `
     }
