@@ -212,16 +212,16 @@ customElements.define("camera-page", class extends YoffeeElement {
         canvas.getContext("2d").drawImage(this.video, 0, 0);
         // img.src = canvas.toDataURL("image/png");
         let base64 = canvas.toDataURL("image/jpg");
-        // const response = await fetch("getLineForImage", {
-        //     method: "POST",
-        //     headers: Object.assign({
-        //         "Content-Type": "application/json; charset=utf-8",
-        //     }),
-        //     body: JSON.stringify({
-        //         data: base64.substring(14)
-        //     })
-        // });
-        // let lines = await response.json()
+        const response = await fetch("getLineForImage", {
+            method: "POST",
+            headers: Object.assign({
+                "Content-Type": "application/json; charset=utf-8",
+            }),
+            body: JSON.stringify({
+                data: base64.substring(22)
+            })
+        });
+        let lines = await response.json()
 
         this.state.lines = {
             shoulders: {
