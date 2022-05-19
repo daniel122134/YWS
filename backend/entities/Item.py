@@ -12,17 +12,9 @@ class Item:
         self.color = color
 
     def to_dict(self):
-        data = {}
-        data["_id"] = self.id
-        data["size"] = self.size
-        data["brand"] = self.brand
-        data["picture"] = self.picture
-        data["body_area"] = self.body_area
-        data["weather"] = self.weather
-        data["is_sport"] = self.is_sport
-        data["is_business"] = self.is_business
-        data["category"] = self.category
-        data["color"] = self.color
+        data = {"_id": self.id, "size": self.size, "brand": self.brand, "picture": self.picture,
+                "body_area": self.body_area, "weather": self.weather, "is_sport": self.is_sport,
+                "is_business": self.is_business, "category": self.category, "color": self.color}
 
         return data
 
