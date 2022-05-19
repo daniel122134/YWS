@@ -223,11 +223,12 @@ customElements.define("camera-page", class extends YoffeeElement {
         });
         let lines = await response.json()
 
+
         this.state.lines = {
             shoulders: {
-                x: lines.data[0],
+                x: lines.data[0] - ((canvas.width - window.innerWidth) / 2),
                 width: lines.data[2] - lines.data[0],
-                y: (lines.data[1] + lines.data[3]) / 2,
+                y: ((lines.data[1] + lines.data[3]) / 2) - ((canvas.height - window.innerHeight) / 2),
                 text: "47cm"
             },
             waist: {
@@ -240,4 +241,5 @@ customElements.define("camera-page", class extends YoffeeElement {
         this.state.showLines = true;
         debugger
     }
+    
 })
