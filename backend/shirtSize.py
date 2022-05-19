@@ -122,7 +122,7 @@ def get_line_data_for_image(image):
         extRight = tuple(c[c[:, :, 0].argmax()][0])
         extTop = tuple(c[c[:, :, 1].argmin()][0])
         extBot = tuple(c[c[:, :, 1].argmax()][0])
-        # extract_prediction(extLeft,extRight,extTop,extBot,c,cropped)
+        extract_prediction(extLeft,extRight,extTop,extBot,c,cropped)
         return extLeft,extRight,top_of_head
 
 
@@ -191,61 +191,61 @@ def crop_twobynine(image):
 
 
 
-# def extract_prediction(extLeft,extRight,extTop,extBot, c,image ):
-# 
-#         
-#         #dB1 = dist.euclidean((extLeft[0], extRight[0]), (extLeft[1], extRight[1]))
-#         #print("left: ",extLeft," right: ",extRight)
-#         
-#         dB = dist.euclidean(extLeft,extRight)
-#         dB = dist.euclidean(extLeft,extRight)
-#         
-#         #dB = dist.euclidean(extLeft,extBot)
-#         #print(dB," ",dB1)
-#         print(dB)
-#         cv.putText(image, "{:.1f}in".format(dB),
-#                  (10,500), cv.FONT_HERSHEY_SIMPLEX, 0.65, (255, 255, 255), 2)
-#         
-#         # draw the outline of the object, then draw each of the
-#         # extreme points, where the left-most is red, right-most
-#         # is green, top-most is blue, and bottom-most is teal
-#         print("hi", cv.drawContours(image, [c], -1, (0, 255, 255), 2))
-#         cv.drawContours(image, [c], -1, (0, 255, 255), 2)
-#         cv.circle(image, extLeft, 8, (0, 0, 255), -1)
-#         cv.circle(image, extRight, 8, (0, 255, 0), -1)
-#         cv.circle(image, extTop, 8, (255, 0, 0), -1)
-#         cv.circle(image, extBot, 8, (255, 255, 0), -1)
-#         plt.imshow(image)
-#         
-# 
-#         
-#         df = pd.read_csv("backend/book.csv")
-#         Y=df[["Actual (in cm)"]]
-#         z=df[["ratio75","ratio100","ratio150"]]#for multiple linear regression
-#         
-#         predict =z.iloc[32:40,]
-#         vector=Y.iloc[0:32,]
-#         poly = PolynomialFeatures(degree=2)
-#         x=z.iloc[0:32,]
-#         
-#         X_ = poly.fit_transform(x)
-#         predict_ = poly.fit_transform(predict)
-#         clf = sklearn.linear_model.LinearRegression()
-#         clf.fit(X_, vector)
-#         Yhat=clf.predict(predict_)
-#         print("predicted values")
-#         print(Yhat)
-#         print("--------------------------")
-#         
-#         
-#         # In[21]:
-#         
-#         
-#         print(m.r2_score(Y[32:40],Yhat))
-#         print(m.mean_squared_error(Y[32:40],Yhat))
-#         ax1 = sns.distplot(df['Actual (in cm)'], hist=False, color="r", label="Actual Value")
-#         sns.distplot(Yhat, hist=False, color="b", label="Fitted Values" , ax=ax1)#Yhat is given as a predicted values (calculated before)
-#         plt.show()
+def extract_prediction(extLeft,extRight,extTop,extBot, c,image ):
+
+
+        #dB1 = dist.euclidean((extLeft[0], extRight[0]), (extLeft[1], extRight[1]))
+        #print("left: ",extLeft," right: ",extRight)
+
+        dB = dist.euclidean(extLeft,extRight)
+        dB = dist.euclidean(extLeft,extRight)
+
+        #dB = dist.euclidean(extLeft,extBot)
+        #print(dB," ",dB1)
+        print(dB)
+        cv.putText(image, "{:.1f}in".format(dB),
+                 (10,500), cv.FONT_HERSHEY_SIMPLEX, 0.65, (255, 255, 255), 2)
+
+        # draw the outline of the object, then draw each of the
+        # extreme points, where the left-most is red, right-most
+        # is green, top-most is blue, and bottom-most is teal
+        print("hi", cv.drawContours(image, [c], -1, (0, 255, 255), 2))
+        cv.drawContours(image, [c], -1, (0, 255, 255), 2)
+        cv.circle(image, extLeft, 8, (0, 0, 255), -1)
+        cv.circle(image, extRight, 8, (0, 255, 0), -1)
+        cv.circle(image, extTop, 8, (255, 0, 0), -1)
+        cv.circle(image, extBot, 8, (255, 255, 0), -1)
+        plt.imshow(image)
+
+
+
+        df = pd.read_csv("backend/book.csv")
+        Y=df[["Actual (in cm)"]]
+        z=df[["ratio75","ratio100","ratio150"]]#for multiple linear regression
+
+        predict =z.iloc[32:40,]
+        vector=Y.iloc[0:32,]
+        poly = PolynomialFeatures(degree=2)
+        x=z.iloc[0:32,]
+
+        X_ = poly.fit_transform(x)
+        predict_ = poly.fit_transform(predict)
+        clf = sklearn.linear_model.LinearRegression()
+        clf.fit(X_, vector)
+        Yhat=clf.predict(predict_)
+        print("predicted values")
+        print(Yhat)
+        print("--------------------------")
+
+
+        # In[21]:
+
+
+        print(m.r2_score(Y[32:40],Yhat))
+        print(m.mean_squared_error(Y[32:40],Yhat))
+        ax1 = sns.distplot(df['Actual (in cm)'], hist=False, color="r", label="Actual Value")
+        sns.distplot(Yhat, hist=False, color="b", label="Fitted Values" , ax=ax1)#Yhat is given as a predicted values (calculated before)
+        plt.show()
 
 if __name__ == '__main__':
         get_line_data("backend/shirtSize/front.jpeg")
