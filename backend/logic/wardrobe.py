@@ -13,17 +13,18 @@ def pickme():
                  "green": ["white", "black"],
                  "purple": ["white", "black"],
                  "yellow": ["white", "black"],
-                 "white": ["purple", "yellow", "blue", "black", ]}
+                 "white": ["purple", "yellow", "blue", "black", ],
+                 "black": ["purple", "yellow", "blue", "white", ]}
     for item in data:
         if item["category"] == "shirt":
-            shirts.insert(item)
+            shirts.append(item)
         if item["category"] == "pants":
-            pants.insert(item)
+            pants.append(item)
     picked_shirt = random.choice(shirts)
     filter1_pants = []
     for item in pants:
         if item["color"] == "black":
-            filter1_pants.insert(item)
+            filter1_pants.append(item)
         else:
             for col in what_goes[picked_shirt["color"]]:
                 if col == item["color"]:

@@ -1,10 +1,11 @@
+from bson import ObjectId
+
 from backend.dal import client
 
 
 def get_all_items():
     result = client.find("wardrobe", {})
-    for r in result:
-        r["_id"] = str(r["_id"])
+
     return result
 
 
