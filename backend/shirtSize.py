@@ -91,13 +91,13 @@ def get_line_data(image_path):
 
 def get_line_data_for_image(image):
         
-        top_of_head = get_top_of_head(image)
+        # top_of_head = get_top_of_head(image)
         
-        cropped = crop_to_top(image,top_of_head)
-        plt.imshow(cropped)
+        # cropped = crop_to_top(image,top_of_head)
+        plt.imshow(image)
         plt.show()
         
-        cropimg = crop_three4(cropped)
+        cropimg = image
         plt.imshow(cropimg)
         plt.show()
         cropped = cv.GaussianBlur(cropimg, (5,5),0)
@@ -123,7 +123,8 @@ def get_line_data_for_image(image):
         extTop = tuple(c[c[:, :, 1].argmin()][0])
         extBot = tuple(c[c[:, :, 1].argmax()][0])
         extract_prediction(extLeft,extRight,extTop,extBot,c,cropped)
-        return extLeft,extRight,top_of_head
+
+        return int(extLeft[0]),int(extLeft[1]),int(extRight[0]),int(extRight[1])
 
 
 # In[4]:

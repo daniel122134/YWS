@@ -74,10 +74,12 @@ is_task_currently_running = False
 @app.route('/getLineForImage', methods=["POST"])
 @response_wrapper
 def get_line():
-    image_data_b64 = request.json["data"]
+    image_data_b64 = request.json["data"][22:]
     image_data = base64.b64decode(image_data_b64)
-    get_line_data_for_image(image_data)
-    return get_line_data("backend/shirtSize/front.jpeg")
+    with open("./tmp.jpeg", "wb") as file:
+        file.write(image_data)
+    
+    return get_line_data("./tmp.jpeg")
 
 
 
