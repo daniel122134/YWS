@@ -158,7 +158,7 @@ customElements.define("camera-page", class extends YoffeeElement {
                 left: -1000px;
             }
             #lines > div.line{
-                height: 2px;
+                height: 4px;
                 background-color: #1f74fd;
             }
         </style>
@@ -209,6 +209,8 @@ customElements.define("camera-page", class extends YoffeeElement {
 
     backToPhotoTakingBitch() {
         this.video.play();
+        this.state.approvePhotoStage = false
+        this.state.showLines = false
     }
 
     async takePhoto() {
