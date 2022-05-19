@@ -122,12 +122,14 @@ customElements.define("camera-page", class extends YoffeeElement {
             #continue-button {
                 margin-left: 20px;
             }
+            
         </style>
         <style>
             #canvas {
                 z-index: -5;
             }
         </style>
+        
         <div id="overlay"></div>
         <canvas id="canvas"></canvas>
         <video autoplay id="video"></video>
@@ -147,6 +149,51 @@ customElements.define("camera-page", class extends YoffeeElement {
         html()`<x-button id="camera-button" onclick=${() => this.takePhoto()}></x-button>`
         }
         <div id="instructions">Make sure your waist and shoulders are seen</div>
+        
+        
+        ${() => this.state.showLines && html()`
+        <style>
+            #lines > div {
+                position: fixed;
+                font-size: 18px;
+                color: #ffffffbb;
+            }
+        
+            #lines > div.line{
+                height: 2px;
+                background-color: #1f74fd;
+            }
+            
+            #shoulders {
+                top: ${() => this.state.lines.shoulders.y}px;
+                left: ${() => this.state.lines.shoulders.x}px;
+                width: ${() => this.state.lines.shoulders.width}px;
+            }
+            
+            #shoulders-text {
+                top: ${() => this.state.lines.shoulders.y + 10}px;
+                left: ${() => this.state.lines.shoulders.x + 10}px;
+            }
+            
+            #waist {
+                top: ${() => this.state.lines.waist.y}px;
+                left: ${() => this.state.lines.waist.x}px;
+                width: ${() => this.state.lines.waist.width}px;
+            }
+            
+            #waist-text {
+                top: ${() => this.state.lines.waist.y + 10}px;
+                left: ${() => this.state.lines.waist.x + 10}px;
+            }
+        </style>
+        
+        <div id="lines">
+            <div id="shoulders" class="line"></div>
+            <div id="shoulders-text">shoulders: ${() => this.state.lines.shoulders.text}</div>
+            <div id="waist" class="line"></div>
+            <div id="waist-text">waist: ${() => this.state.lines.waist.text}</div>
+        </div>
+        `}
         `
     }
 
@@ -171,10 +218,26 @@ customElements.define("camera-page", class extends YoffeeElement {
                 "Content-Type": "application/json; charset=utf-8",
             }),
             body: JSON.stringify({
-                data: base64
+                data: base64.substring(22)
             })
         });
         let lines = await response.json()
+
+        this.state.lines = {
+            shoulders: {
+                x: 100,
+                width: 200,
+                y: 200,
+                text: "47cm"
+            },
+            waist: {
+                x: 150,
+                width: 200,
+                y: 400,
+                text: "39cm"
+            }
+        }
+        this.state.showLines = true;
         debugger
     }
 })
