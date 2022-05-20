@@ -10,7 +10,7 @@ createYoffeeElement("explore-page", class extends YoffeeElement {
             body: {}
             
         };
-        fetch('/getWardrobe', requestOptions)
+        fetch('/getExplore', requestOptions)
             .then(response => response.json())
             .then(data => {
                 for (const item of data.data){
