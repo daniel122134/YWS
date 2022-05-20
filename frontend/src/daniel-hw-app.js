@@ -13,7 +13,9 @@ import "./item.js"
 import "./contact-page.js"
 import "./splash-page.js"
 import "./camera-page.js"
+import {openModal} from "./components/x-modal.js";
 
+let modal = null
 
 customElements.define("daniel-hw-app", class extends YoffeeElement {
     constructor() {
@@ -27,6 +29,105 @@ customElements.define("daniel-hw-app", class extends YoffeeElement {
         })
     }
 
+    open_modal(){
+
+        let modal = openModal(
+            html()`
+                <style>
+                    #container {
+                        padding: 20px 20px;
+                    }
+    
+                    text-input {
+                        margin-left: auto;
+                        background-color: #d0d0d0;
+                        color:black;
+                    }
+                    
+                    .input-with-name {
+                        display: flex;
+                        margin: 5px 10px;
+                        align-items: center;
+                    }
+                    
+                    .input-with-name > x-button {
+                        margin-right: 5px;
+                        margin-left: 5px;
+                    }
+                    
+                    #finish-button {
+                        margin-top: 20px;
+                    }
+                    
+                    .title {
+                        font-size: 18px;
+                        margin: 30px 0 12px 0;
+                    }
+                </style>
+                <div id="container">
+                    <div style="font-size: 24px">Add New Item to Your Wardrobe</div>
+                    
+                    
+                    
+                    
+                    <div class="desc">Item Name:</div>
+                    <text-input id="item-name"></text-input>
+                    <div class="margin"></div>
+                    
+                    <div class="desc">Size:</div>
+                    <text-input id="size"></text-input>
+                    <div class="margin"></div>
+
+                    <div class="desc">Color:</div>
+                    <text-input id="color"></text-input>
+                    <div class="margin"></div>
+
+                    
+                    <div class="desc">Image:</div>                    
+                    <input type="file" id="myfile" name="myfile">
+                    <div class="margin"></div>
+                    
+                    <x-button id="finish-button"
+                              onclick=${() => modal.close()}>
+                        Cancel
+                    </x-button>
+                    <x-button id="finish-button"
+                              onclick=${() => () => this.validateAndSend()}>
+                        Save
+                    </x-button>
+                </div>`
+        )
+        return modal;
+    }
+    validateAndSend() {
+
+        let item = modal.querySelector("#item-name").getValue()
+        let color = modal.querySelector("#color").getValue()
+        let size = modal.querySelector("#size").getValue()
+        let file = modal.querySelector("#myfile")
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file.files[0]);
+
+        reader.onload = function () {
+            debugger
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({name:item, color:color,size:size, isDark:"", brand:"", image:reader.result, bodyArea:"", weather:"", isSport:"", isBusiness:"", category:""})
+            } ;
+            fetch('/addItem', requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    alert(data)
+                    console.log(data)});
+
+        };
+
+
+    }
+
+
     render() {
         return html(this.props, this.state, state.tree, state)`
 <style>
@@ -36,7 +137,12 @@ customElements.define("daniel-hw-app", class extends YoffeeElement {
         height: inherit;
         overflow-x: hidden;
     }
-    
+    .add{
+        flex:1;
+        border: solid;
+        padding: 10px;
+        border-radius: 10px;
+    }
     #container {
         opacity: 0;
     }
@@ -186,11 +292,17 @@ ${() => !this.state.finishedCameraStage && html()`
         <img id="logo" src="res/hackru.jpg" onclick=${() => () => this.switchPage(PAGES.home)} />
         <div id="title" onclick=${() => () => this.switchPage(PAGES.home)}>YWS</div>
         
+        
+        
         <div id="about-button" class="header-button" 
              highlight=${() => this.state.currentPage === PAGES.closet}
              onclick=${() => () => this.switchPage(PAGES.closet)}>
-            My Clothes
+            Dress
         </div>
+            
+            
+       
+        
         <div id="vote-button" class="header-button" 
              highlight=${() => this.state.currentPage === PAGES.explore}
              onclick=${() => () => this.switchPage(PAGES.explore)}>
@@ -200,8 +312,14 @@ ${() => !this.state.finishedCameraStage && html()`
          <div id="vote-button" class="header-button" 
              highlight=${() => this.state.currentPage === PAGES.dress}
              onclick=${() => () => this.switchPage(PAGES.dress)}>
-            Dress 
+            My Wardrobe 
         </div>
+        
+        <div class="margin"></div>
+    <div>
+                <img id="barbot" class="add" src="res/add_cloth.png" onclick=${() => modal=this.open_modal() } />
+    </div>
+    <div class="margin"></div>
         
         <x-switch id="dark-theme-toggle" 
                   value=${() => state.darkTheme}

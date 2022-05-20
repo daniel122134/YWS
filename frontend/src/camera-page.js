@@ -154,7 +154,7 @@ customElements.define("camera-page", class extends YoffeeElement {
             #lines > div {
                 position: fixed;
                 font-size: 18px;
-                color: #ffffffbb;
+                color: black;
                 left: -1000px;
             }
             #lines > div.line{
@@ -165,7 +165,8 @@ customElements.define("camera-page", class extends YoffeeElement {
         
         <div id="lines">
             <div id="shoulders" class="line"></div>
-            <div id="shoulders-text">shoulders: ${() => this.state.lines ? this.state.lines.shoulders.text : ""}</div>
+            <div id="shoulders-text">Shoulder Width: ${() => this.state.lines ? this.state.lines.shoulders.text : ""}</div>
+            <div id="shoulders-text2">Avrage Shirt Size: XL</div>
 <!--            <div id="waist" class="line"></div>-->
 <!--            <div id="waist-text">waist: {() => this.state.lines.waist.text}</div>-->
         </div>
@@ -183,12 +184,24 @@ customElements.define("camera-page", class extends YoffeeElement {
             }
             
             #shoulders-text {
-                top: ${() => this.state.lines.shoulders.y + 10}px;
+                top: ${() => this.state.lines.shoulders.y + 30}px;
+                color: black;
             }
             
             #shoulders-text {
-                left: ${() => this.state.lines.shoulders.x + 10}px !important;
+                left: ${() => this.state.lines.shoulders.x + 30}px !important;
                 transition-delay: 300ms;
+                transition-duration: 500ms;
+            }
+            
+            #shoulders-text2 {
+                top: ${() => this.state.lines.shoulders.y + 50}px;
+                color: black;
+            }
+            
+            #shoulders-text2 {
+                left: ${() => this.state.lines.shoulders.x + 50}px !important;
+                transition-delay: 400ms;
                 transition-duration: 500ms;
             }
             
@@ -240,7 +253,7 @@ customElements.define("camera-page", class extends YoffeeElement {
             shoulders: {
                 x: lines.data[0] - ((canvas.width - window.innerWidth) / 2),
                 width: lines.data[2] - lines.data[0],
-                y: ((lines.data[1] + lines.data[3]) / 2) - ((canvas.height - window.innerHeight) / 2),
+                y: ((lines.data[1] + lines.data[3]) / 2) - ((canvas.height - window.innerHeight) / 2) -20,
                 text: "47cm"
             },
             waist: {

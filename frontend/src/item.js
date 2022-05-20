@@ -1,12 +1,21 @@
 import {createYoffeeElement, html, YoffeeElement} from "../libs/yoffee/yoffee.min.js";
 
 createYoffeeElement("item-page", class extends YoffeeElement {
-
+    constructor() {
+        super({count:1});
+    }
 
     render() {
         return html(this.state, this.props)`
 <style>
-    
+    .fl{
+    flex:1
+    }
+    button{
+    border-radius: 20px;
+    border-style: none;
+    flex: 1;
+    }
     #title {
         padding-bottom: 15px;
     }
@@ -16,6 +25,11 @@ createYoffeeElement("item-page", class extends YoffeeElement {
       border: 1px solid #ccc;
       float: left;
       width: 180px;
+        box-shadow: 5px 7px 20px 0px;
+    }
+    .gl{
+          display: flex;
+      flex-direction: row;
     }
     
     div.gallery:hover {
@@ -39,7 +53,13 @@ createYoffeeElement("item-page", class extends YoffeeElement {
   <a target="_blank" href=${() => this.props.items.src}>
     <img src=${() => this.props.items.src} width="600" height="400">
   </a>
-  <div class="desc">Add a description of the image here</div>
+  <div class="gl">
+      <div class="fl"></div>
+      <button onclick="${() => this.state.count-=1}">-</button>
+      ${() => this.state.count}
+      <button onclick="${() => this.state.count+=1}">+</button>
+      <div class="fl"></div>
+    </div>
 </div>
 
 
