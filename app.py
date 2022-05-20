@@ -101,6 +101,11 @@ def add_item_req():
     x= get_all_items()
     return x
 
+@app.route('/getWardrobe', methods=["POST"])
+@response_wrapper
+def get_wardrobe():
+    return get_all_items()
+    
 
 @app.route('/getServerIp', methods=["POST"])
 @response_wrapper

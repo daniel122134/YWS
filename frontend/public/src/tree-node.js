@@ -88,9 +88,8 @@ createYoffeeElement("tree-node", class extends YoffeeElement {
                 state.selectedNode = this.props.node;
                 window.history.replaceState(null, null, `?page=${PAGES.about}&doc=${state.selectedNode.name}`);
                 
-                if (window.innerWidth < 800) {
-                    state.sideMenuOpen = false;
-                }
+                state.sideMenuOpen = true;
+                
             }
         }}>
     <x-icon id="open-icon" 

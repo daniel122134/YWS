@@ -2,8 +2,24 @@ import {createYoffeeElement, html, YoffeeElement} from "../libs/yoffee/yoffee.mi
 
 createYoffeeElement("item-canvas-page", class extends YoffeeElement {
     constructor() {
-        super({items:[{src:"res/hackru.jpg"},{src:"res/hackru.jpg"}, {src:"res/hackru.jpg"}]})
-        }
+        super({items: []})
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: {}
+            
+        };
+        fetch('/getWardrobe', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                for (const item of data.data){
+                    item.src=item.image
+                }
+                this.state.items = data.data
+            });
+        
+    }
 
     render() {
         return html(this.state)`
@@ -65,7 +81,7 @@ createYoffeeElement("item-canvas-page", class extends YoffeeElement {
 
 <div>
     ${() => this.state.items.map(item => html()`
-    <item-page items=${()=> item}>
+    <item-page items=${() => item}>
     </item-page>
     `)}
 </div>

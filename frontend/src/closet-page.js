@@ -79,8 +79,9 @@ createYoffeeElement("closet-page", class extends YoffeeElement {
                     <text-input id="color"></text-input>
                     <div class="margin"></div>
 
-                    <div class="desc">Is dark:</div>
-                    <text-input id="is-dark"></text-input>
+                    
+                    <div class="desc">Image:</div>                    
+                    <input type="file" id="myfile" name="myfile">
                     <div class="margin"></div>
                     
                     <x-button id="finish-button"
@@ -218,17 +219,27 @@ createYoffeeElement("closet-page", class extends YoffeeElement {
         let item = modal.querySelector("#item-name").getValue()
         let color = modal.querySelector("#color").getValue()
         let size = modal.querySelector("#size").getValue()
-        let is_dark = modal.querySelector("#is-dark").getValue()
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name:item, color:color,size:size, isDark:is_dark, brand:"", picture:"", bodyArea:"", weather:"", isSport:"", isBusiness:"", category:""})    
-    } ;
-        fetch('/addItem', requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                alert(data)
-                console.log(data)});
+        let file = modal.querySelector("#myfile")
+        
+        var reader = new FileReader();
+        reader.readAsDataURL(file.files[0]);
+        
+        reader.onload = function () {
+            debugger
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({name:item, color:color,size:size, isDark:"", brand:"", image:reader.result, bodyArea:"", weather:"", isSport:"", isBusiness:"", category:""})
+            } ;
+            fetch('/addItem', requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    alert(data)
+                    console.log(data)});
+            
+        };
+
+        
     }
     
 });
