@@ -1,6 +1,6 @@
 import {createYoffeeElement, html, YoffeeElement} from "../libs/yoffee/yoffee.min.js";
 
-createYoffeeElement("item-canvas-page", class extends YoffeeElement {
+createYoffeeElement("explore-page", class extends YoffeeElement {
     constructor() {
         super({items: []})
 

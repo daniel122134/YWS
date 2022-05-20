@@ -11,6 +11,7 @@ const PAGES = {
     home: "home",
     closet: "closet",
     explore: "explore",
+    dress:"dress"
 }
 
 let state = {

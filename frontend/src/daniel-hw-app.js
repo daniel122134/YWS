@@ -7,7 +7,8 @@ import "./components/x-switch.js"
 import "./components/x-icon.js"
 import "./home-page.js"
 import "./closet-page.js"
-import "./item-canvas.js"
+import "./dress.js"
+import "./explore.js"
 import "./item.js"
 import "./contact-page.js"
 import "./splash-page.js"
@@ -170,11 +171,11 @@ ${() => this.state.inSplashPage && html()`
 
 ${() => !this.state.finishedCameraStage && html()`
 <camera-page onfinish=${() => {
-    console.log("Finished")
-    this.state.finishedCameraStage = true
-    // this.state.displayContent = true
-    this.state.inSplashPage = false
-}}></camera-page>
+            console.log("Finished")
+            this.state.finishedCameraStage = true
+            // this.state.displayContent = true
+            this.state.inSplashPage = false
+        }}></camera-page>
 `}
 
 
@@ -193,7 +194,13 @@ ${() => !this.state.finishedCameraStage && html()`
         <div id="vote-button" class="header-button" 
              highlight=${() => this.state.currentPage === PAGES.explore}
              onclick=${() => () => this.switchPage(PAGES.explore)}>
-            Explore ♥
+            Explore             
+        </div>
+        
+         <div id="vote-button" class="header-button" 
+             highlight=${() => this.state.currentPage === PAGES.dress}
+             onclick=${() => () => this.switchPage(PAGES.dress)}>
+            Dress 
         </div>
         
         <x-switch id="dark-theme-toggle" 
@@ -205,14 +212,16 @@ ${() => !this.state.finishedCameraStage && html()`
     </div>
 
     ${() => {
-        if (this.state.currentPage === PAGES.home) {
-            return html()`<home-page getstarted=${() => () => this.switchPage(PAGES.closet)} ></home-page>`
-        } else if (this.state.currentPage === PAGES.closet) {
-            return html()`<closet-page></closet-page>`
-        } else if (this.state.currentPage === PAGES.explore) {
-            return html()`<item-canvas-page></item-canvas-page>`
-        }
-    }}
+            if (this.state.currentPage === PAGES.home) {
+                return html()`<home-page getstarted=${() => () => this.switchPage(PAGES.closet)} ></home-page>`
+            } else if (this.state.currentPage === PAGES.closet) {
+                return html()`<closet-page></closet-page>`
+            } else if (this.state.currentPage === PAGES.explore) {
+                return html()`<explore-page></explore-page>`
+            } else if (this.state.currentPage === PAGES.dress) {
+                return html()`<dress-page></dress-page>`
+            }
+        }}
 </div>
 
 `
