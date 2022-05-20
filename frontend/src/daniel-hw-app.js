@@ -114,7 +114,7 @@ customElements.define("daniel-hw-app", class extends YoffeeElement {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({name:item, color:color,size:size, isDark:"", brand:"", image:reader.result, bodyArea:"", weather:"", isSport:"", isBusiness:"", category:""})
+                body: JSON.stringify({color:color,size:size, isDark:"", brand:"", image:reader.result, bodyArea:"", weather:"", isSport:"", isBusiness:"", category:item})
             } ;
             fetch('/addItem', requestOptions)
                 .then(response => response.json())

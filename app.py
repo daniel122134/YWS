@@ -10,6 +10,7 @@ from flask import Flask, send_from_directory, request
 
 from backend.dal.wardrobe import add_item, remove_item, get_all_items
 from backend.entities.Item import Item
+from backend.logic.wardrobe import pickme
 from backend.shirtSize import get_line_data, get_line_data_for_image
 
 ROOT_FOLDER = "frontend"
@@ -105,7 +106,17 @@ def add_item_req():
 @response_wrapper
 def get_wardrobe():
     return get_all_items()
-    
+
+@app.route('/getPicks', methods=["POST"])
+@response_wrapper
+def get_picks():
+    return pickme()
+
+@app.route('/getExplore', methods=["POST"])
+@response_wrapper
+def get_explore():
+    return get_all_items()
+
 
 @app.route('/getServerIp', methods=["POST"])
 @response_wrapper
